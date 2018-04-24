@@ -1,6 +1,8 @@
 
 bin/
 pkg/
+conf/
+log/
 
 # Binaries for programs and plugins
 *.exe

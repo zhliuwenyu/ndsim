@@ -14,6 +14,7 @@ type Config struct {
 	LogPath     string
 	LogFileName string
 	LogLevel    int
+	DataPath    string
 }
 
 //GConfig is global conf object
@@ -23,6 +24,7 @@ var GConfig = Config{
 	LogPath:     "./log",
 	LogFileName: "ndsim.log",
 	LogLevel:    logLevelDebug,
+	DataPath:    "./data",
 }
 
 //LoadConfigFile load config file from configFilePath
