@@ -1,19 +1,11 @@
 package ndsim
 
 import (
-	"bytes"
-	"encoding/binary"
 	"errors"
 	"fmt"
 	"reflect"
 	"unsafe"
 )
-
-//HashLength define simhash ret length in byte array
-const HashLength = 64
-
-//HashSign define type name of sign
-type HashSign [HashLength]byte
 
 //IndexControl define index global info
 type IndexControl struct {
@@ -87,14 +79,6 @@ func UnserializeReverseIndex(raw []byte) (*ReverseIndex, error) {
 	binary.Read(buf, binary.LittleEndian, &ri.DocListCap)
 	return &ri, nil
 }
-
-/*ForwardIndex define forwardindex node struct
-包含 docid、hashlist磁盘偏移、hashlist长度
-*/
-type ForwardIndex struct {
-	DocID          int64
-	HashListOffset int32
-	HashListLen    int32
 }
 
 //SerializeForwardIndex trans ForwardIndex to byte slice
