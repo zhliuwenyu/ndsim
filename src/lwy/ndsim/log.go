@@ -25,28 +25,28 @@ const (
 
 //Debug for log Debug level
 func (l *Log) Debug(v ...interface{}) {
-	if l.Level > logLevelDebug {
+	if l.Level >= logLevelDebug {
 		l.LogDN.Output(2, fmt.Sprintln(" Debug ", v))
 	}
 }
 
 //Notice for log Notice level
 func (l *Log) Notice(v ...interface{}) {
-	if l.Level > logLevelNotice {
+	if l.Level >= logLevelNotice {
 		l.LogDN.Output(2, fmt.Sprintln(" Notice ", v))
 	}
 }
 
 //Warning for log Warning level
 func (l *Log) Warning(v ...interface{}) {
-	if l.Level > logLevelWarning {
+	if l.Level >= logLevelWarning {
 		l.LogWF.Output(2, fmt.Sprintln(" Warning ", v))
 	}
 }
 
 //Fatal for log Fatal level
 func (l *Log) Fatal(v ...interface{}) {
-	if l.Level > logLevelFatal {
+	if l.Level >= logLevelFatal {
 		l.LogWF.Output(2, fmt.Sprintln(" Fatal ", v))
 	}
 	os.Exit(255)
