@@ -2,6 +2,7 @@ package ndsim
 
 import (
 	"flag"
+	"log"
 	"os"
 )
 
@@ -35,5 +36,35 @@ func Run() {
 	}
 	if err := initLog(); err != nil {
 		os.Exit(2)
+	}
+}
+
+//InitAll for init glog gconf ... for server start
+func InitAll() {
+	parseFlag()
+	if err := LoadConfigFile(configFile); err != nil {
+		os.Exit(1)
+	}
+	if err := initLog(); err != nil {
+		os.Exit(2)
+	}
+	if err := initIndexControl(); err != nil {
+		os.Exit(3)
+	}
+}
+
+//InitTest for init glog gconf ... for go test cmd
+func InitTest() {
+	configFile = "D:/Go/conf/ndsim.ini"
+	if err := LoadConfigFile(configFile); err != nil {
+		os.Exit(1)
+	}
+	if err := initLog(); err != nil {
+		os.Exit(2)
+	}
+	gLog.LogDN = log.New(os.Stdout, "[ndsim DN]", log.Llongfile|log.Ldate|log.Ldate|log.Ltime)
+	gLog.LogWF = log.New(os.Stdout, "[ndsim WF]", log.Llongfile|log.Ldate|log.Ldate|log.Ltime)
+	if err := initIndexControl(); err != nil {
+		os.Exit(3)
 	}
 }

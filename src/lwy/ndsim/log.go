@@ -26,29 +26,30 @@ const (
 //Debug for log Debug level
 func (l *Log) Debug(v ...interface{}) {
 	if l.Level > logLevelDebug {
-		l.LogDN.Println(" DEBUG ", v)
+		l.LogDN.Output(2, fmt.Sprintln(" Debug ", v))
 	}
 }
 
 //Notice for log Notice level
 func (l *Log) Notice(v ...interface{}) {
 	if l.Level > logLevelNotice {
-		l.LogDN.Println(" Notice ", v)
+		l.LogDN.Output(2, fmt.Sprintln(" Notice ", v))
 	}
 }
 
 //Warning for log Warning level
 func (l *Log) Warning(v ...interface{}) {
 	if l.Level > logLevelWarning {
-		l.LogWF.Println(" Warning ", v)
+		l.LogWF.Output(2, fmt.Sprintln(" Warning ", v))
 	}
 }
 
 //Fatal for log Fatal level
 func (l *Log) Fatal(v ...interface{}) {
 	if l.Level > logLevelFatal {
-		l.LogWF.Println(" Fatal ", v)
+		l.LogWF.Output(2, fmt.Sprintln(" Fatal ", v))
 	}
+	os.Exit(255)
 }
 
 //Info for notice log has changed and no log level to set
@@ -57,13 +58,16 @@ func (l *Log) Info(v ...interface{}) {
 	l.LogWF.Println(v)
 }
 
-//GLog is global Log object
-var GLog Log
+//gLog is global Log object
+var gLog Log
 
 const logPREFIX = "[ndsim]"
 
 func initLog() error {
-	logPath, fileName, level := GConfig.LogPath, GConfig.LogFileName, GConfig.LogLevel
+	if gLog.LogDN != nil {
+		return nil
+	}
+	logPath, fileName, level := gConfig.LogPath, gConfig.LogFileName, gConfig.LogLevel
 	dir, err := os.Lstat(logPath)
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -93,7 +97,7 @@ func initLog() error {
 	}
 	log1 := log.New(logIO1, logPREFIX, log.Llongfile|log.Ldate|log.Ldate|log.Ltime)
 	log2 := log.New(logIO2, logPREFIX, log.Llongfile|log.Ldate|log.Ldate|log.Ltime)
-	GLog = Log{Path: logPath, FileName: fileName, Level: level, LogDN: log1, LogWF: log2}
+	gLog = Log{Path: logPath, FileName: fileName, Level: level, LogDN: log1, LogWF: log2}
 
 	return nil
 }

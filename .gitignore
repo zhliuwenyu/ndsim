@@ -3,6 +3,7 @@ bin/
 pkg/
 conf/
 log/
+data/
 
 # Binaries for programs and plugins
 *.exe

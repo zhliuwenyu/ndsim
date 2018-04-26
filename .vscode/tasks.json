@@ -1,0 +1,43 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    /*
+    "tasks": [
+        {
+            "type": "typescript",
+            "tsconfig": "src\\golang.org\\x\\tools\\cmd\\heapview\\client\\tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ]
+        }
+    ],*/
+    "command":"go",
+    "args": [
+        "run",
+        "${file}"
+    ],
+    "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "shared"
+    },
+    "problemMatchers": {
+        "owner": "go",
+        "fileLocation": [
+            "relative",
+            "${fileDirname}"
+        ],
+        "pattern": {
+            "regexp": "^(.*):(\\d+):\\s+(.*)$",
+            "file":1,
+            "line": 2,
+            "message": 3
+        }
+    },
+    "group": {
+        "kind": "build",
+        "isDefault": true
+    }
+}

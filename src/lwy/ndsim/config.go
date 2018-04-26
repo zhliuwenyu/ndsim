@@ -9,22 +9,34 @@ import (
 
 //Config struct define all config fields
 type Config struct {
-	UpdatePort  int
-	QueryPort   int
-	LogPath     string
-	LogFileName string
-	LogLevel    int
-	DataPath    string
+	UpdatePort             int
+	QueryPort              int
+	LogPath                string
+	LogFileName            string
+	LogLevel               int
+	DataPath               string
+	DocIDFrom              DocID
+	DocIDEnd               DocID
+	ForwardIndexFileName   string
+	ForwardContentFileName string
+	ReverseIndexFileName   string
+	ReverseContentFileName string
 }
 
-//GConfig is global conf object
-var GConfig = Config{
-	UpdatePort:  8091,
-	QueryPort:   8090,
-	LogPath:     "./log",
-	LogFileName: "ndsim.log",
-	LogLevel:    logLevelDebug,
-	DataPath:    "./data",
+//gConfig is global conf object
+var gConfig = Config{
+	UpdatePort:             8091,
+	QueryPort:              8090,
+	LogPath:                "./log",
+	LogFileName:            "ndsim.log",
+	LogLevel:               logLevelDebug,
+	DataPath:               "./data",
+	DocIDFrom:              100000000,
+	DocIDEnd:               200000000,
+	ForwardIndexFileName:   "forward.index",
+	ForwardContentFileName: "forward.content",
+	ReverseIndexFileName:   "reverse.index",
+	ReverseContentFileName: "reverse.content",
 }
 
 //LoadConfigFile load config file from configFilePath
@@ -46,7 +58,7 @@ func LoadConfigFile(configFilePath string) error {
 			fmt.Println(errStr)
 			return errors.New(errStr)
 		}
-		GConfig.UpdatePort = port
+		gConfig.UpdatePort = port
 	}
 	{ //check for query port
 		port, err := cfg.Int("global", "QueryPort")
@@ -59,7 +71,7 @@ func LoadConfigFile(configFilePath string) error {
 			fmt.Println(errStr)
 			return errors.New(errStr)
 		}
-		GConfig.QueryPort = port
+		gConfig.QueryPort = port
 	}
 
 	{ //check for logPath , logFileName and loglevel
@@ -68,21 +80,21 @@ func LoadConfigFile(configFilePath string) error {
 			fmt.Println(err)
 			return err
 		}
-		GConfig.LogPath = logPath
+		gConfig.LogPath = logPath
 
 		logFileName, err := cfg.GetValue("global", "LogFileName")
 		if err != nil {
 			fmt.Println(err)
 			return err
 		}
-		GConfig.LogFileName = logFileName
+		gConfig.LogFileName = logFileName
 
 		logLevel, err := cfg.Int("global", "LogLevel")
 		if err != nil {
 			fmt.Println(err)
 			return err
 		}
-		GConfig.LogLevel = logLevel
+		gConfig.LogLevel = logLevel
 	}
 	return nil
 }
