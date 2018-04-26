@@ -68,9 +68,6 @@ func UnserializeReverseIndex(raw []byte) (*ReverseIndex, error) {
 	if len(raw) < rawLen {
 		return nil, errors.New("raw has no enough length")
 	}
-
-	for i := 0; i < HashLength; i++ {
-		ri.HashKey[i] = raw[i]
 	}
 	buf := bytes.NewReader(raw[HashLength:])
 	binary.Read(buf, binary.LittleEndian, &ri.KeyOffset)
@@ -92,14 +89,7 @@ func SerializeForwardIndex(fi ForwardIndex) []byte {
 
 	return buf.Bytes()
 }
-
-//UnserializeForwardIndex trans byte slice to ReverseIndex
-func UnserializeForwardIndex(raw []byte) (*ForwardIndex, error) {
-	fi := ForwardIndex{}
-	rawLen := (int)(unsafe.Sizeof(fi))
-	if len(raw) < rawLen {
-		return nil, errors.New("raw has no enough length")
-	}
+	return nil
 
 	buf := bytes.NewReader(raw)
 	binary.Read(buf, binary.LittleEndian, &fi.DocID)
