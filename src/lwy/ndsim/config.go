@@ -21,6 +21,7 @@ type Config struct {
 	ForwardContentFileName string
 	ReverseIndexFileName   string
 	ReverseContentFileName string
+	DictPath               string
 }
 
 //gConfig is global conf object
@@ -37,6 +38,7 @@ var gConfig = Config{
 	ForwardContentFileName: "forward.content",
 	ReverseIndexFileName:   "reverse.index",
 	ReverseContentFileName: "reverse.content",
+	DictPath:               "D:/Go/data/dict/",
 }
 
 //LoadConfigFile load config file from configFilePath

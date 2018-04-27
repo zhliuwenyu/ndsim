@@ -2,25 +2,34 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/yanyiwu/gosimhash"
 )
 
 type rename [4]byte
 
 func main() {
-	{ //test bytes copy
-		buf := make([]byte, 100)
-		src1 := []byte("abcefg")
-		src2 := []byte("HJKLMN")
-		//src3 := []int{1, 2, 3, 4, 5}
-		src4 := rename{'1', '2', '3', '4'}
-		fmt.Println(src4)
-		copy(buf[1:3], src1)
-		copy(buf[20:22], src2)
-		copy(buf[30:40], src4[:])
+	sentence := "我来到北京清华大学"
+	topN := 5
+	hasher := gosimhash.New("D:/Go/data/dict/jieba.dict.utf8", "D:/Go/data/dict/hmm_model.utf8", "D:/Go/data/dict/idf.utf8", "D:/Go/data/dict/stop_words.utf8")
+	defer hasher.Free()
+	fingerprint := hasher.MakeSimhash(sentence, topN)
+	fmt.Printf("%s simhash: %x\n", sentence, fingerprint)
+	/*
+		{ //test bytes copy
+			buf := make([]byte, 100)
+			src1 := []byte("abcefg")
+			src2 := []byte("HJKLMN")
+			//src3 := []int{1, 2, 3, 4, 5}
+			src4 := rename{'1', '2', '3', '4'}
+			fmt.Println(src4)
+			copy(buf[1:3], src1)
+			copy(buf[20:22], src2)
+			copy(buf[30:40], src4[:])
 
-		fmt.Println(buf)
+			fmt.Println(buf)
 
-	}
+		}*/
 	/*
 		{ //test struct compare
 
